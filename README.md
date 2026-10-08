@@ -62,7 +62,7 @@ TMP=$(mktemp -d)
 cp ~/Library/Preferences/pbs.plist "$TMP/pbs.plist.bak"   # backup
 defaults export pbs "$TMP/pbs.plist"
 
-K="com.dinidh.automator.new-md-file-here - New MD File Here - runWorkflowAsService"
+K="com.gradivis.automator.new-md-file-here - New MD File Here - runWorkflowAsService"
 PB=/usr/libexec/PlistBuddy
 $PB -c "Add :NSServicesStatus:'$K' dict" "$TMP/pbs.plist"
 $PB -c "Add :NSServicesStatus:'$K':presentation_modes dict" "$TMP/pbs.plist"

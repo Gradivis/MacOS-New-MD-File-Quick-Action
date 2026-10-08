@@ -28,7 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.dinidh.automator.new-md-file-here</string>
+	<string>com.gradivis.automator.new-md-file-here</string>
 	<key>CFBundleName</key>
 	<string>New MD File Here</string>
 	<key>CFBundlePackageType</key>
