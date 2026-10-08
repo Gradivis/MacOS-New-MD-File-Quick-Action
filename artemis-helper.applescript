@@ -5,6 +5,9 @@ use scripting additions
 on run
 	set outputPath to (system attribute "NEW_MD_OUTPUT_PATH")
 
+	set theApp to current application's NSApplication's sharedApplication()
+	theApp's setActivationPolicy:(current application's NSApplicationActivationPolicyAccessory)
+
 	set theAlert to current application's NSAlert's new()
 	theAlert's setMessageText:"New MD File"
 	theAlert's setInformativeText:"Enter a name for the new file."
@@ -29,7 +32,10 @@ on run
 
 	theAlert's setAccessoryView:accessory
 
-	current application's NSApp's activateIgnoringOtherApps:true
+	set runningApp to current application's NSRunningApplication's currentApplication()
+	(runningApp's activateWithOptions:3) -- NSApplicationActivateAllWindows | NSApplicationActivateIgnoringOtherApps
+	theApp's activateIgnoringOtherApps:true
+
 	set theResult to theAlert's runModal()
 
 	set baseName to ""

@@ -60,7 +60,7 @@ on run {input, parameters}
 	end tell
 	set folderPath to POSIX path of targetFolder
 
-	set helperPath to (POSIX path of (path to home folder)) &amp; "Library/Services/New MD File Here.workflow/Contents/Resources/DialogHelper.app/Contents/MacOS/applet"
+	set helperPath to (POSIX path of (path to home folder)) &amp; "Library/Services/New MD File Here.workflow/Contents/Resources/ArtemisHelper.app/Contents/MacOS/applet"
 	set outPath to (do shell script "/usr/bin/mktemp /tmp/new-md-dialog.XXXXXX")
 
 	try
@@ -146,15 +146,15 @@ end fileExists
 				<key>Class Name</key>
 				<string>RunScriptAction</string>
 				<key>InputUUID</key>
-				<string>A1EFFACA-B9DD-4D62-9BB4-A8F403D94A16</string>
+				<string>253B5590-021A-4A7B-9EBC-D7B5B01B0D5E</string>
 				<key>Keywords</key>
 				<array>
 					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>C8312B46-F262-4386-9FB0-AAFD651DCB09</string>
+				<string>6D47D7E0-93F1-473C-9D95-8B6DC22C130D</string>
 				<key>UUID</key>
-				<string>E0520000-0449-42E9-8806-34B9A39C5379</string>
+				<string>81FA8017-81DB-4F41-85B9-9FE0B4BCE4E7</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -204,7 +204,7 @@ end fileExists
 			<string>/System/Library/CoreServices/Finder.app</string>
 		</array>
 		<key>inputTypeIdentifier</key>
-		<string>com.apple.Automator.nothing</string>
+		<string>com.apple.Automator.fileSystemObject</string>
 		<key>outputTypeIdentifier</key>
 		<string>com.apple.Automator.nothing</string>
 		<key>presentationMode</key>
@@ -216,7 +216,7 @@ end fileExists
 		<key>serviceApplicationPath</key>
 		<string>/System/Library/CoreServices/Finder.app</string>
 		<key>serviceInputTypeIdentifier</key>
-		<string>com.apple.Automator.nothing</string>
+		<string>com.apple.Automator.fileSystemObject</string>
 		<key>serviceOutputTypeIdentifier</key>
 		<string>com.apple.Automator.nothing</string>
 		<key>serviceProcessesInput</key>

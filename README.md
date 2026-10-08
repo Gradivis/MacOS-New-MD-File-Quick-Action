@@ -15,7 +15,9 @@ Right-clicking an empty Finder window and choosing the action runs an AppleScrip
 
 ### Why it's two pieces, not one script
 
-A Finder Service's "Run AppleScript" action doesn't get a proper main-thread run loop, so it can't reliably show its own GUI dialog — attempting to does one of two bad things: throws `NSWindow should only be instantiated on the main thread!`, or silently hangs forever. The dialog is therefore a small compiled helper app (`Contents/Resources/DialogHelper.app` inside the `.workflow`, built from `dialog-helper.applescript` in this repo), which gets a real window-server context the same way any ordinary Mac app does. The outer Service script just launches it and reads its answer back.
+A Finder Service's "Run AppleScript" action doesn't get a proper main-thread run loop, so it can't reliably show its own GUI dialog — attempting to does one of two bad things: throws `NSWindow should only be instantiated on the main thread!`, or silently hangs forever. The dialog is therefore a small compiled helper app (`Contents/Resources/ArtemisHelper.app` inside the `.workflow`, built from `artemis-helper.applescript` in this repo), which gets a real window-server context the same way any ordinary Mac app does. The outer Service script just launches it and reads its answer back.
+
+Getting that helper to actually take keyboard focus on its own (rather than sitting there until you click its Dock icon) needs `NSRunningApplication`'s `activateWithOptions:` with an explicit integer bitmask (`3`, i.e. `NSApplicationActivateAllWindows | NSApplicationActivateIgnoringOtherApps`) — the named constants don't reliably bridge through AppleScriptObjC, so this uses the raw value instead. Running with `NSApplicationActivationPolicyAccessory` also means no Dock icon appears at all.
 
 ## Requirements and compatibility
 
@@ -27,11 +29,13 @@ Download `New-MD-File-Here-Automator-quick-action.workflow.zip`, unzip it anywhe
 
 Double-clicking matters. It runs Automator's installer, which does two things: copies the bundle into `~/Library/Services`, *and* registers the action's display flag. If you skip the double-click and drag the bundle into `~/Library/Services` yourself, only the first half happens, and you get an action that is installed and registered but never appears in any menu. See Troubleshooting below if that's already happened to you.
 
-The repo also includes the unzipped `Info.plist` and `document.wflow`, plus `dialog-helper.applescript` (the source compiled into the bundled dialog helper app), if you'd rather adapt this for a different file type or default content.
+If you're updating an already-installed copy to a newer version of this repo, the installer silently does nothing the second time — it detects the existing bundle identifier and skips reinstalling, so double-clicking again won't pick up your changes. Replace the files directly in `~/Library/Services/New MD File Here.workflow/Contents/` instead, then `touch` the `.workflow` bundle, run `/System/Library/CoreServices/pbs -flush`, and `killall Finder`.
+
+The repo also includes the unzipped `Info.plist` and `document.wflow`, plus `artemis-helper.applescript` (the source compiled into the bundled dialog helper app), if you'd rather adapt this for a different file type or default content.
 
 ### Where it appears
 
-This is a "no input" Service — it isn't tied to any file type, so it shows up whenever you right-click Finder's background (on a folder, on the Desktop, in any view), under **Services → General → New MD File Here**, and in the Quick Actions submenu.
+The action declares `NSSendFileTypes: public.folder` and a `fileSystemObject` input type, which is what makes it eligible for the **Quick Actions** submenu, not just the full **Services** menu — a "no input" Service (no declared file type at all) gets a working menu item under Services but never gets offered in Quick Actions, even with its display flag correctly set. Right-click Finder's background (on a folder, on the Desktop, in any view) and it shows up under both **Quick Actions** and **Services → General → New MD File Here**. The script ignores whatever Finder actually hands it as input and always asks Finder directly for the current window's folder (`insertion location`), so right-clicking a specific folder still creates the new file as a sibling, the same way "New Folder" behaves.
 
 ## Troubleshooting: installed but not showing in the right-click menu
 

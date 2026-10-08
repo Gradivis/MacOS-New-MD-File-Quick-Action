@@ -17,6 +17,10 @@
 				<key>default</key>
 				<string>New MD File Here</string>
 			</dict>
+			<key>NSSendFileTypes</key>
+			<array>
+				<string>public.folder</string>
+			</array>
 			<key>NSIconName</key>
 			<string>NSActionTemplate</string>
 			<key>NSBackgroundColorName</key>
